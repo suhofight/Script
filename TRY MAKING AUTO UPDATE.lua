@@ -1,16 +1,3 @@
-function updateChecker()
-    scversion = 3
-    -- Ganti URL dengan URL yang Anda berikan
-    API = gg.makeRequest('https://raw.githubusercontent.com/suhofight/Script/refs/heads/main/TRY%20MAKING%20AUTO%20UPDATE.lua').content
-    if not API then
-        gg.alert('❌Check Network You❌\n\n✅Either You Are Offline\n✅Or You Did not Give Internet access')
-    else
-        pcall(load(API))
-    end
-end
-
-updateChecker()
- 
 -- Username dan Password
 gg.setVisible(false)
 local Username = "OWNER"
