@@ -1,3 +1,68 @@
+-- Username dan Password
+gg.setVisible(false)
+local Username = "OWNER"
+local Password = "OWN"
+
+-- Prompt untuk memasukkan username dan password
+local Menu = gg.prompt({"Username:", "Password:"}, nil, {"text", "text"})
+
+-- Validasi input
+if Menu ~= nil then
+    local inputUsername = Menu[1]
+    local inputPassword = Menu[2]
+
+    if inputUsername == Username and inputPassword == Password then
+    gg.sleep(1500)
+    
+function loadingAnimation()
+    local loadingSteps = {
+        "Loading\n▒▒▒▒▒▒▒▒▒▒ 0%",
+        "Loading\n█▒▒▒▒▒▒▒▒▒ 10%",
+        "Loading\n██▒▒▒▒▒▒▒▒ 20%",
+        "Loading\n███▒▒▒▒▒▒▒ 30%",
+        "Loading\n████▒▒▒▒▒▒ 40%",
+        "Loading\n█████▒▒▒▒▒ 50%",
+        "Loading\n██████▒▒▒▒ 60%",
+        "Loading\n███████▒▒▒ 70%",
+        "Loading\n████████▒▒ 80%",
+        "Loading\n█████████▒ 90%",
+        "Loading\n██████████ 100%"
+    }
+
+    for _, step in ipairs(loadingSteps) do
+        gg.toast(step)
+        gg.sleep(300) -- Memberi jeda waktu 500 ms antara setiap langkah
+    end
+
+    local verifyingSteps = {
+        "Verifying □□□□□",
+        "Verifying ■□□□□",
+        "Verifying ■■□□□",
+        "Verifying ■■■□□",
+        "Verifying ■■■■□"
+    }
+
+    for _, step in ipairs(verifyingSteps) do
+        gg.toast(step)
+        gg.sleep(300) -- Memberi jeda waktu 500 ms antara setiap langkah
+    end
+end
+
+-- Memulai animasi loading
+loadingAnimation()
+gg.sleep(1000)
+
+        gg.toast("Welcome User: " .. inputUsername)
+        gg.sleep(1500)
+    else
+        gg.alert("Incorrect Username or Password ✗")
+        os.exit()
+    end
+else
+    gg.toast("Operation cancelled ✗")
+    os.exit()
+end
+
 -- Cek informasi target (termasuk perangkat)
 local targetInfo = gg.getTargetInfo()
 local currentDeviceId = targetInfo and targetInfo.device or "Unknown Device"
