@@ -1,106 +1,83 @@
--- Username dan Password
-gg.setVisible(false)
-local Username = "OWNER"
-local Password = "OWN"
+-- Constants
+local USERNAME = "OWNER"
+local PASSWORD = "OWN"
+local SCRIPT_EXPIRY_DATE = "2025/01/01"
+local UPDATE_URL = "https://raw.githubusercontent.com/suhofight/Script/refs/heads/main/Auto%20UPDATE.lua"
 
--- Prompt untuk memasukkan username dan password
-local Menu = gg.prompt({"Username:", "Password:"}, nil, {"text", "text"})
-
--- Validasi input
-if Menu ~= nil then
-    local inputUsername = Menu[1]
-    local inputPassword = Menu[2]
-
-    if inputUsername == Username and inputPassword == Password then
-    gg.sleep(1500)
-    
-function loadingAnimation()
-    local loadingSteps = {
-        "Loading\n▒▒▒▒▒▒▒▒▒▒ 0%",
-        "Loading\n█▒▒▒▒▒▒▒▒▒ 10%",
-        "Loading\n██▒▒▒▒▒▒▒▒ 20%",
-        "Loading\n███▒▒▒▒▒▒▒ 30%",
-        "Loading\n████▒▒▒▒▒▒ 40%",
-        "Loading\n█████▒▒▒▒▒ 50%",
-        "Loading\n██████▒▒▒▒ 60%",
-        "Loading\n███████▒▒▒ 70%",
-        "Loading\n████████▒▒ 80%",
-        "Loading\n█████████▒ 90%",
-        "Loading\n██████████ 100%"
-    }
-
-    for _, step in ipairs(loadingSteps) do
-        gg.toast(step)
-        gg.sleep(300) -- Memberi jeda waktu 500 ms antara setiap langkah
-    end
-
-    local verifyingSteps = {
-        "Verifying □□□□□",
-        "Verifying ■□□□□",
-        "Verifying ■■□□□",
-        "Verifying ■■■□□",
-        "Verifying ■■■■□"
-    }
-
-    for _, step in ipairs(verifyingSteps) do
-        gg.toast(step)
-        gg.sleep(300) -- Memberi jeda waktu 500 ms antara setiap langkah
+-- Helper functions
+local function checkForUpdates()
+    local scversion = 3
+    local response = gg.makeRequest(UPDATE_URL)
+    if response then
+        local api = response.content
+        pcall(load(api))
+    else
+        gg.alert("❌ Check Network You ❌\n\nEither You Are Offline or Did not Give Internet Access")
     end
 end
 
--- Memulai animasi loading
-loadingAnimation()
-gg.sleep(1000)
-
-        gg.toast("Welcome User: " .. inputUsername)
-        gg.sleep(1500)
+local function validateUserCredentials()
+    local Menu = gg.prompt({"Username:", "Password:"}, nil, {"text", "text"})
+    if Menu then
+        local inputUsername, inputPassword = Menu[1], Menu[2]
+        if inputUsername == USERNAME and inputPassword == PASSWORD then
+            gg.sleep(1500)
+            loadingAnimation()
+            return true
+        else
+            gg.alert("Incorrect Username or Password ✗")
+            os.exit()
+        end
     else
-        gg.alert("Incorrect Username or Password ✗")
+        gg.toast("Operation cancelled ✗")
         os.exit()
     end
-else
-    gg.toast("Operation cancelled ✗")
-    os.exit()
 end
 
--- Cek informasi target (termasuk perangkat)
-local targetInfo = gg.getTargetInfo()
-local currentDeviceId = targetInfo and targetInfo.device or "Unknown Device"
+local function loadingAnimation()
+    local loadingSteps = {
+        "Loading\n▒▒▒▒▒▒▒▒▒▒ 0%", "Loading\n█▒▒▒▒▒▒▒▒▒ 10%", "Loading\n██▒▒▒▒▒▒▒▒ 20%",
+        "Loading\n███▒▒▒▒▒▒▒ 30%", "Loading\n████▒▒▒▒▒▒ 40%", "Loading\n█████▒▒▒▒▒ 50%",
+        "Loading\n██████▒▒▒▒ 60%", "Loading\n███████▒▒▒ 70%", "Loading\n████████▒▒ 80%",
+        "Loading\n█████████▒ 90%", "Loading\n██████████ 100%"
+    }
+    for _, step in ipairs(loadingSteps) do
+        gg.toast(step)
+        gg.sleep(300)
+    end
+end
 
--- Ganti "Unknown Device" dengan ID atau deskripsi default jika `getTargetInfo()` tidak tersedia.
-
--- Deklarasi untuk teks modifikasi dengan tema SuhooFight
-local inputUsername = " OWNER "  -- Ganti dengan cara untuk mendapatkan username, jika ada
-local SuhoFight = [[
+local function showInfoBanner()
+    local targetInfo = gg.getTargetInfo()
+    local currentDeviceId = targetInfo and targetInfo.device or "Unknown Device"
+    local inputUsername = USERNAME
+    local SuhoFight = [[
       🌟 SCRIPT BY SUHOOFIGHT 🌟
-
            ┌────────⋆⋅☆⋅⋆────────┐
-
-            👤Username  : ]] .. inputUsername .. [[
-             
-             
-             📱Device     : ]] .. currentDeviceId .. [[
-             
-             
+            👤 Username  : ]] .. inputUsername .. [[
+             📱 Device    : ]] .. currentDeviceId .. [[
              📅 Date      : ]] .. os.date("%Y/%m/%d") .. [[
-             
-             
              ⏰ Time      : ]] .. os.date("%H:%M:%S") .. [[
-             
-             
-            ⏳ Expired   : 2025/01/01
-
+             ⏳ Expired   : ]] .. SCRIPT_EXPIRY_DATE .. [[
            └────────⋆⋅☆⋅⋆────────┘
-]]
-
--- Menampilkan alert dengan header SuhooFight
-gg.alert(SuhoFight)
-
-gg.setVisible(true)
-if os.date("%Y%m%d") >= "20250102" then 
-    gg.alert("Script Has Expired⚠️\nContact Script Owner Via Discord")
-    os.exit() 
+    ]]
+    gg.alert(SuhoFight)
 end
+
+local function checkScriptExpiry()
+    if os.date("%Y%m%d") >= "20250102" then
+        gg.alert("Script Has Expired⚠️\nContact Script Owner Via Discord")
+        os.exit()
+    end
+end
+
+-- Function to clear the results after operations
+local function clearResultsAndNotify(message)
+    gg.clearResults()
+    gg.toast(message)
+    gg.sleep(1000)
+end
+
 
 gg.showUiButton()
 
@@ -474,6 +451,24 @@ function showNote()
     gg.toast("No option selected ⚠️")
   end
 end
+
+-- Main script execution
+function main()
+    checkForUpdates()  -- Check for updates
+    if not validateUserCredentials() then return end
+    gg.setVisible(false)
+    showInfoBanner()
+    gg.setVisible(true)
+
+    checkScriptExpiry() -- Check if the script is expired
+end
+
+-- Menu or exit functionality (optional)
+local function exitScript()
+    -- Function implementation for exiting
+end
+
+main()  -- Execute the script
 
 -- Fungsi untuk keluar dari skrip
 function exitScript()
