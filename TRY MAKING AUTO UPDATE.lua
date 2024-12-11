@@ -1,13 +1,15 @@
-import os
-import requests
+function updateChecker()
+    scversion = 3
+    -- Ganti URL dengan URL yang Anda berikan
+    API = gg.makeRequest('https://raw.githubusercontent.com/suhofight/Script/refs/heads/main/TRY%20MAKING%20AUTO%20UPDATE.lua').content
+    if not API then
+        gg.alert('❌Check Network You❌\n\n✅Either You Are Offline\n✅Or You Did not Give Internet access')
+    else
+        pcall(load(API))
+    end
+end
 
-url = "https://github.com/suhofight/Script/raw/refs/heads/main/fileeee.zip"
-local_file = "fileeee.zip"
-
-# Periksa apakah file telah berubah
-response = requests.get(url)
-with open(local_file, "wb") as file:
-    file.write(response.content)
+updateChecker()
  
 -- Username dan Password
 gg.setVisible(false)
@@ -494,10 +496,10 @@ function exitScript()
   -- Mencetak informasi ke konsol
   print("𝙈𝙖𝙞𝙣 𝙄𝙣𝙛𝙤 \n\n𝘾𝙧𝙚𝙖𝙩𝙤𝙧 : ❚█══SuhoFight══█❚")
   print("𝙇𝙤𝙜 𝘽𝙮 : 𝙎𝙪𝙝𝙤𝙤𝙁𝙞𝙜𝙝𝙩")
-  print("𝙑𝙚𝙧𝙨𝙞𝙤𝙣 : 3.0")  -- Versi skrip Anda
+  print("𝙑𝙚𝙧𝙨𝙞𝙤𝙣 : 3.0")
   print("𝙎𝙞𝙣𝙘𝙚 : 01 / 12 / 2024")
   print("𝙇𝙖𝙨𝙩 𝙐𝙥𝙙𝙖𝙩𝙚 : 09 / 12 / 2024")
-  print("𝙑𝙚𝙧𝙨𝙞𝙤𝙣 𝙂𝙖𝙢𝙚𝙂𝙪𝙖𝙧𝙙𝙞𝙖𝙣 : " .. gg.VERSION)  -- Menampilkan versi GameGuardian secara otomatis
+  print("𝙑𝙚𝙧𝙨𝙞𝙤𝙣 𝙂𝙖𝙢𝙚𝙂𝙪𝙖𝙧𝙙𝙞𝙖𝙣 : " .. gg.VERSION)  
   print("𝙎𝙤𝙨𝙞𝙖𝙡 𝙈𝙚𝙙𝙞𝙖 : Discord : @_suhooo / Insta : @junchrooo")
   print("🇮🇩𝙎𝙐𝘽𝙎𝘾𝙍𝙄𝘽𝙀 𝙈𝙔 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 : 𝙅𝙪𝙣𝙋𝙚𝙞𝙞𝙞🇮🇩")
   -- Lua script with ASCII art template
